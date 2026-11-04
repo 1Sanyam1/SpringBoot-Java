@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: product
+    # added
+server:
+  error:
+    include-message: always
