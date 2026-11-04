@@ -19,21 +19,20 @@ public class ProductService {
 
     private final RestClient client = RestClient.create("https://dummyjson.com");
 
-    // allowed sort fields -> how to compare them
+    //sort fields
     private static final Map<String, Comparator<Product>> SORTS = Map.of(
             "title", by(Product::title),
             "category", by(Product::category),
             "brand", by(Product::brand),
-            "price", by(Product::price),
-            "rating", by(Product::rating),
-            "stock", by(Product::stock));
+            "price", by(Product::price));
 
+
+    //helper for sort mapping
     private static <T extends Comparable<T>> Comparator<Product> by(Function<Product, T> field) {
         return Comparator.comparing(field, Comparator.nullsLast(Comparator.naturalOrder()));
     }
 
-    public PageResponse<Product> list(String category, String brand, List<String> sort,
-                                      int page, int size) {
+    public PageResponse<Product> list(String category, String brand, List<String> sort,int page, int size) {
         if (page < 0 || size < 1 || size > 100) {
             throw badRequest("page must be >= 0 and size must be between 1 and 100");
         }
