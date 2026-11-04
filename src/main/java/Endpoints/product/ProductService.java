@@ -38,11 +38,11 @@ public class ProductService {
             throw badRequest("page must be >= 0 and size must be between 1 and 100");
         }
 
-        // 1. fetch all products
+        //fetch all products
         List<Product> products = new ArrayList<>(client.get().uri("/products?limit=0")
                 .retrieve().body(ProductsResponse.class).products());
 
-        // 2. filter
+        //filter
         if (category != null) {
             products.removeIf(p -> !category.equalsIgnoreCase(p.category()));
         }
@@ -50,7 +50,7 @@ public class ProductService {
             products.removeIf(p -> !brand.equalsIgnoreCase(p.brand()));
         }
 
-        // 3. sort
+        //sort
         if (sort != null) {
             Comparator<Product> combined = null;
             for (String item : sort) {
@@ -73,7 +73,7 @@ public class ProductService {
             }
         }
 
-        // 4. page
+        //page
         int total = products.size();
         int totalPages = (total + size - 1) / size;
         int from = (int) Math.min((long) page * size, total);
